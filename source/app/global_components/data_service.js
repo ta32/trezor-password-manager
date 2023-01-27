@@ -9,7 +9,7 @@
 
 var Service = {
   saveContext(data) {
-    chrome.runtime.sendMessage({ type: 'saveContent', content: data });
+    browser.runtime.sendMessage({ type: 'saveContent', content: data });
   },
 
   getContext() {

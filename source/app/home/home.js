@@ -36,7 +36,7 @@ var React = require('react'),
     },
 
     componentDidMount() {
-      chrome.runtime.onMessage.addListener(this.chromeMsgHandler);
+      browser.runtime.onMessage.addListener(this.chromeMsgHandler);
       window.addEventListener('online', this.updateOnlineStatus);
       window.addEventListener('offline', this.updateOnlineStatus);
       // RUN INIT!
@@ -44,7 +44,7 @@ var React = require('react'),
     },
 
     componentWillUnmount() {
-      chrome.runtime.onMessage.removeListener(this.chromeMsgHandler);
+      browser.runtime.onMessage.removeListener(this.chromeMsgHandler);
       window.removeEventListener('online', this.updateOnlineStatus);
       window.removeEventListener('offline', this.updateOnlineStatus);
     },
@@ -53,7 +53,7 @@ var React = require('react'),
       if (this.state.transportType === 'WebUsbPlugin' && this.state.isOnline) {
         var button = this.webusbButton.getDOMNode();
         if (button && button.getElementsByTagName('iframe').length < 1) {
-          chrome.runtime.sendMessage({
+          browser.runtime.sendMessage({
             type: 'renderWebUSBButton'
           }, (innerHTML) => {
             button.innerHTML = innerHTML;
@@ -116,7 +116,7 @@ var React = require('react'),
           this.setState({
             dialog: 'pin_dialog'
           });
-          chrome.tabs.getCurrent(tab => {
+          browser.tabs.getCurrent(tab => {
             sendResponse({ type: 'pinVisible', tab: tab });
           });
           break;
@@ -208,7 +208,7 @@ var React = require('react'),
           dialog: 'loading_dialog',
           activeDevice: this.state.devices[d]
         });
-        chrome.runtime.sendMessage({
+        browser.runtime.sendMessage({
             type: 'getDeviceState',
             content: this.state.devices[d]
         }, (a) => {
@@ -229,7 +229,7 @@ var React = require('react'),
     },
 
     sendMessage(msgType, msgContent) {
-      chrome.runtime.sendMessage({ type: msgType, content: msgContent });
+      browser.runtime.sendMessage({ type: msgType, content: msgContent });
     },
 
     connectDropbox() {

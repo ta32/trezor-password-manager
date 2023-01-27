@@ -18,11 +18,11 @@ var React = require('react'),
     },
 
     componentDidMount() {
-      chrome.runtime.onMessage.addListener(this.chromeInitModalMsgHandler);
+      browser.runtime.onMessage.addListener(this.chromeInitModalMsgHandler);
     },
 
     componentWillUnmount() {
-      chrome.runtime.onMessage.removeListener(this.chromeInitModalMsgHandler);
+      browser.runtime.onMessage.removeListener(this.chromeInitModalMsgHandler);
     },
 
     isOnline() {
@@ -30,7 +30,7 @@ var React = require('react'),
     },
 
     sendMessage(msgType, msgContent) {
-      chrome.runtime.sendMessage({ type: msgType, content: msgContent });
+      browser.runtime.sendMessage({ type: msgType, content: msgContent });
     },
 
     chromeInitModalMsgHandler(request, sender, sendResponse) {

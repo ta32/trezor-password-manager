@@ -41,8 +41,8 @@ var React = require('react'),
     },
 
     componentDidMount() {
-      chrome.runtime.onMessage.addListener(this.chromeErrorModalMsgHandler);
-      chrome.runtime.getPlatformInfo(info => {
+      browser.runtime.onMessage.addListener(this.chromeErrorModalMsgHandler);
+      browser.runtime.getPlatformInfo(info => {
         this.setState({
           userInfo: '%0D%0A%0D%0APlatform info:%0D%0A' + JSON.stringify(info) + '%0D%0A'
         });
@@ -50,7 +50,7 @@ var React = require('react'),
     },
 
     componentWillUnmount() {
-      chrome.runtime.onMessage.removeListener(this.chromeErrorModalMsgHandler);
+      browser.runtime.onMessage.removeListener(this.chromeErrorModalMsgHandler);
     },
 
     isOnline() {
@@ -485,7 +485,7 @@ var React = require('react'),
 
     restartApp() {
       localStorage.setItem('tpmRestart', 'reopen');
-      chrome.runtime.reload();
+      browser.runtime.reload();
     },
 
     cleanStorage() {

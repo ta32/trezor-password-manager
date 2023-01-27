@@ -4,7 +4,7 @@
  * Licensed under Microsoft Reference Source License (Ms-RSL)
  * see LICENSE.md file for details
  */
-
+// GoogleDrive integration is broken
 'use strict';
 const API_URL = 'https://www.googleapis.com/drive/v2',
   scopes = [
@@ -108,11 +108,11 @@ class DriveMgmt {
 
   obtainToken() {
     return new Promise((resolve, reject) => {
-      chrome.identity.getAuthToken({ interactive: true, scopes: scopes }, token => {
+      browser.identity.getAuthToken({ interactive: true, scopes: scopes }, token => {
         if (typeof token === 'undefined') {
-          chrome.identity.getAuthToken({ interactive: true, scopes: scopes }, token => {
+          browser.identity.getAuthToken({ interactive: true, scopes: scopes }, token => {
             if (typeof token === 'undefined') {
-              reject(chrome.runtime.lastErrror);
+              reject(browser.runtime.lastErrror);
             } else {
               resolve(token);
             }
@@ -125,7 +125,7 @@ class DriveMgmt {
   }
 
   disconnect() {
-    chrome.identity.removeCachedAuthToken({ token: this.token }, () => {
+    browser.identity.removeCachedAuthToken({ token: this.token }, () => {
       this.bgStore.emit('sendMessage', 'disconnected');
     });
   }
@@ -322,7 +322,7 @@ class DriveMgmt {
         },
         onComplete: data => {
           resolve(JSON.parse(data).id);
-          chrome.runtime.sendMessage({ type: 'fileSaved' });
+          browser.runtime.sendMessage({ type: 'fileSaved' });
         },
         onError: data => {
           reject(JSON.parse(data));

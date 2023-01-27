@@ -17,25 +17,25 @@ class ChromeMgmt {
     this.activeDomain = '';
     this.hasCredentials = false;
     this.accessTabId = 0;
-    chrome.tabs.onActivated.addListener(() => this._detectActiveUrl());
-    chrome.tabs.onUpdated.addListener(() => this._detectActiveUrl());
-    chrome.commands.onCommand.addListener(c => this._chromeCommands(c));
-    chrome.browserAction.onClicked.addListener(() => this.openAppTab());
+    browser.tabs.onActivated.addListener(() => this._detectActiveUrl());
+    browser.tabs.onUpdated.addListener(() => this._detectActiveUrl());
+    browser.commands.onCommand.addListener(c => this._chromeCommands(c));
+    browser.browserAction.onClicked.addListener(() => this.openAppTab(this.bgStore.appUrl));
   }
 
   exists() {
-    if (typeof chrome === 'undefined') {
-      return Promise.reject(new Error('Global chrome does not exist; probably not running chrome'));
+    if (typeof browser === 'undefined') {
+      return Promise.reject(new Error('Global browser does not exist; probably not running browser'));
     }
-    if (typeof chrome.runtime === 'undefined') {
+    if (typeof browser.runtime === 'undefined') {
       return Promise.reject(
-        new Error('Global chrome.runtime does not exist; probably not running chrome')
+        new Error('Global browser.runtime does not exist; probably not running browser')
       );
     }
-    if (typeof chrome.runtime.sendMessage === 'undefined') {
+    if (typeof browser.runtime.sendMessage === 'undefined') {
       return Promise.reject(
         new Error(
-          'Global chrome.runtime.sendMessage does not exist; probably not whitelisted website in extension manifest'
+          'Global browser.runtime.sendMessage does not exist; probably not whitelisted website in extension manifest'
         )
       );
     }
@@ -49,11 +49,11 @@ class ChromeMgmt {
     }
   }
 
-  openAppTab() {
+  openAppTab(appUrl) {
     return new Promise((resolve, reject) => {
-      chrome.runtime.sendMessage({ type: 'isAppOpen', content: '' }, response => {
-        if (chrome.runtime.lastError || !response) {
-          chrome.tabs.create({ url: this.bgStore.appUrl, selected: true }, tab => {
+      browser.runtime.sendMessage({ type: 'isAppOpen', content: '' }, response => {
+        if (browser.runtime.lastError || !response) {
+          browser.tabs.create({ url: appUrl, selected: true }, tab => {
             this.focusTab(tab.id).then(() => {
               resolve(tab.id);
             });
@@ -69,7 +69,7 @@ class ChromeMgmt {
 
   focusTab(tabId) {
     return new Promise((resolve, reject) => {
-      chrome.tabs.update(tabId, { highlighted: true }, tab => {
+      browser.tabs.update(tabId, { highlighted: true }, tab => {
         resolve(tab);
         this.sendTabMessage(tabId, 'focus');
       });
@@ -78,7 +78,7 @@ class ChromeMgmt {
 
   _detectActiveUrl() {
     if (this.bgStore.phase === 'LOADED' && this.bgStore.decryptedContent) {
-      chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+      browser.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
         if (typeof tabs[0] !== 'undefined') {
           if (this.bgStore.isUrl(tabs[0].url)) {
             this.activeUrl = tabs[0].url;
@@ -125,7 +125,7 @@ class ChromeMgmt {
         break;
 
       case 'restart_app':
-        chrome.runtime.reload();
+        browser.runtime.reload();
         break;
     }
   }
@@ -134,7 +134,7 @@ class ChromeMgmt {
     let entry = false;
     if (this.bgStore.decryptedContent) {
       entry = this._matchingContent(host);
-      chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+      browser.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
         if (typeof tabs[0] !== 'undefined') {
           if (this.bgStore.isUrl(tabs[0].url)) {
             if (this.bgStore.decomposeUrl(tabs[0].url).domain === this.activeDomain) {
@@ -152,10 +152,10 @@ class ChromeMgmt {
     var domain = this.activeUrl;
     this.openAppTab().then(tabId => {
       setTimeout(() => {
-        chrome.runtime.sendMessage({ type: 'saveEntry', content: domain }, response => {
+        browser.runtime.sendMessage({ type: 'saveEntry', content: domain }, response => {
           if (!response) {
             setTimeout(() => {
-              chrome.runtime.sendMessage({ type: 'saveEntry', content: domain });
+              browser.runtime.sendMessage({ type: 'saveEntry', content: domain });
             }, 800);
           }
         });
@@ -171,8 +171,8 @@ class ChromeMgmt {
       ERROR: { color: [255, 173, 51, 255], defaultText: '\u0020' },
       OFF: { color: [255, 255, 0, 100], defaultText: '' }
     };
-    chrome.browserAction.setBadgeText({ text: badgeState[status].defaultText });
-    chrome.browserAction.setBadgeBackgroundColor({ color: badgeState[status].color });
+    browser.browserAction.setBadgeText({ text: badgeState[status].defaultText });
+    browser.browserAction.setBadgeBackgroundColor({ color: badgeState[status].color });
   }
 
   _matchingContent(host) {
@@ -205,23 +205,23 @@ class ChromeMgmt {
 
   _injectContentScript(id, type, data) {
     var tabId = id;
-    chrome.tabs.sendMessage(tabId, { type: 'isScriptExecuted' }, response => {
-      if (chrome.runtime.lastError) {
-        chrome.tabs.insertCSS(
+    browser.tabs.sendMessage(tabId, { type: 'isScriptExecuted' }, response => {
+      if (browser.runtime.lastError) {
+        browser.tabs.insertCSS(
           tabId,
           { file: 'css/content_style.css', runAt: 'document_start' },
           () => {
-            chrome.tabs.executeScript(
+            browser.tabs.executeScript(
               tabId,
               { file: 'js/content_script.js', runAt: 'document_start' },
               () => {
-                chrome.tabs.sendMessage(tabId, { type: 'isScriptExecuted' }, response => {
+                browser.tabs.sendMessage(tabId, { type: 'isScriptExecuted' }, response => {
                   if (response.type === 'scriptReady') {
                     this.sendTabMessage(tabId, type, data);
                   } else {
-                    chrome.tabs.executeScript(tabId, { file: 'js/content_script.js' }, () => {
-                      if (chrome.runtime.lastError) {
-                        console.error(chrome.runtime.lastError);
+                    browser.tabs.executeScript(tabId, { file: 'js/content_script.js' }, () => {
+                      if (browser.runtime.lastError) {
+                        console.error(browser.runtime.lastError);
                         throw Error('Unable to inject script into tab ' + tabId);
                       }
                       this.sendTabMessage(tabId, type, data);
@@ -253,7 +253,7 @@ class ChromeMgmt {
   }
 
   openTabAndLogin(data) {
-    chrome.tabs.create({ url: this._setProtocolPrefix(data.title) }, tab => {
+    browser.tabs.create({ url: this._setProtocolPrefix(data.title) }, tab => {
       let sendObj = { username: data.username, password: data.password };
       this._injectContentScript(tab.id, 'fillData', sendObj);
     });
@@ -266,20 +266,20 @@ class ChromeMgmt {
   }
 
   sendMessage(msgType, msgContent) {
-    chrome.runtime.sendMessage({ type: msgType, content: msgContent });
+    browser.runtime.sendMessage({ type: msgType, content: msgContent });
   }
 
   sendTabMessage(tabId, type, data) {
-    chrome.tabs.sendMessage(tabId, { type: type, content: data });
+    browser.tabs.sendMessage(tabId, { type: type, content: data });
   }
 
   clearContextMenuItem() {
-    chrome.contextMenus.removeAll();
+    browser.contextMenus.removeAll();
   }
 
   _createContextMenuItem(hasItem) {
-    chrome.contextMenus.removeAll(() => {
-      chrome.contextMenus.create({
+    browser.contextMenus.removeAll(() => {
+      browser.contextMenus.create({
         id: this.activeDomain,
         contexts: ['page', 'selection', 'image', 'link'],
         title: hasItem ? 'Login to ' + this.activeDomain : 'Save ' + this.activeDomain,

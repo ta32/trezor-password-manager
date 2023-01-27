@@ -27,14 +27,14 @@ var React = require('react'),
       window.myStore.on('changeTag', this.changeTag);
       window.myStore.on('update', this.updateContent);
       window.myStore.on('mobileNav', this.mobileNav);
-      chrome.runtime.onMessage.addListener(this.chromeTableMsgHandler);
+      browser.runtime.onMessage.addListener(this.chromeTableMsgHandler);
     },
 
     componentWillUnmount() {
       window.myStore.removeListener('changeTag', this.changeTag);
       window.myStore.removeListener('update', this.updateContent);
       window.myStore.removeListener('mobileNav', this.mobileNav);
-      chrome.runtime.onMessage.removeListener(this.chromeTableMsgHandler);
+      browser.runtime.onMessage.removeListener(this.chromeTableMsgHandler);
     },
 
     chromeTableMsgHandler(request, sender, sendResponse) {

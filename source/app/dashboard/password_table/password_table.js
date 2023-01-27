@@ -40,7 +40,7 @@ var React = require('react'),
       window.myStore.on('toggleNewEntry', this.toggleNewEntry);
       window.myStore.on('update', this.updateTableContent);
       window.myStore.on('export', this.setExport);
-      chrome.runtime.onMessage.addListener(this.chromeTableMsgHandler);
+      browser.runtime.onMessage.addListener(this.chromeTableMsgHandler);
     },
 
     componentWillUnmount() {
@@ -49,7 +49,7 @@ var React = require('react'),
       window.myStore.removeListener('toggleNewEntry', this.toggleNewEntry);
       window.myStore.removeListener('update', this.updateTableContent);
       window.myStore.removeListener('export', this.setExport);
-      chrome.runtime.onMessage.removeListener(this.chromeTableMsgHandler);
+      browser.runtime.onMessage.removeListener(this.chromeTableMsgHandler);
     },
 
     setExport(value) {
@@ -323,7 +323,7 @@ var React = require('react'),
         }
       });
 
-      chrome.runtime.sendMessage(
+      browser.runtime.sendMessage(
         { type: 'exportEntries', content: entriesToExport, clipboardClear: false },
         response => {
           if (response && response.content && response.content.success) {
@@ -419,7 +419,7 @@ var React = require('react'),
 
     exportCancel() {
       this.exportEnd();
-      chrome.runtime.sendMessage({ type: 'getFeatures' });
+      browser.runtime.sendMessage({ type: 'getFeatures' });
     },
 
     render() {

@@ -8,7 +8,7 @@
 'use strict';
 var crypto = require('crypto'),
     state = crypto.randomBytes(40).toString('hex');
-const fullReceiverPath = 'chrome-extension://' + chrome.runtime.id + '/html/chrome_oauth_receiver.html',
+const fullReceiverPath = 'moz-extension://' + browser.runtime.id + '/html/chrome_oauth_receiver.html',
     APIKEY = 's340kh3l0vla1nv',
     STORAGE = 'tpmDropboxToken',
     logoutUrl = 'https://www.dropbox.com/logout',
@@ -131,7 +131,7 @@ class DropboxMgmt {
         let myReader = new FileReader();
         myReader.addEventListener('loadend', e => {
           this.bgStore.setData(e.srcElement.result);
-          chrome.runtime.sendMessage({ type: 'fileSaved' });
+          browser.runtime.sendMessage({ type: 'fileSaved' });
         });
         myReader.readAsArrayBuffer(blob);
       })

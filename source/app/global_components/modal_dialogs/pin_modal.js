@@ -18,11 +18,11 @@ var React = require('react'),
     },
 
     componentDidMount() {
-      chrome.runtime.onMessage.addListener(this.chromePinModalMsgHandler);
+      browser.runtime.onMessage.addListener(this.chromePinModalMsgHandler);
     },
 
     componentWillUnmount() {
-      chrome.runtime.onMessage.removeListener(this.chromePinModalMsgHandler);
+      browser.runtime.onMessage.removeListener(this.chromePinModalMsgHandler);
     },
 
     chromePinModalMsgHandler(request, sender, sendResponse) {
@@ -31,7 +31,7 @@ var React = require('react'),
           this.setState({
             showPinModal: true
           });
-          chrome.tabs.getCurrent(tab => {
+          browser.tabs.getCurrent(tab => {
             sendResponse({ type: 'pinVisible', tab: tab });
           });
           break;

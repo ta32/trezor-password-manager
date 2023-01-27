@@ -14,12 +14,12 @@ window.tpmErroLog = [];
 window.AppRootFolder = 'Apps';
 window.AppFolder = 'TREZOR Password Manager';
 
-// Useful for sendMessage debugging (chrome.runtime.lastError)
-// const sm = chrome.runtime.sendMessage;
-// chrome.runtime.sendMessage = (a, b) => {
-//   console.log("runtime.sendMessage:", a, b);
-//   sm(a, b);
-// }
+// Useful for sendMessage debugging (browser.runtime.lastError)
+const sm = browser.runtime.sendMessage;
+browser.runtime.sendMessage = (a, b) => {
+  console.log("runtime.sendMessage:", a, b);
+  sm(a, b);
+}
 
 // Storage will be used for background internal messaging (extends EventEmitter) ...
 var Promise = require('es6-promise').Promise,
@@ -189,7 +189,7 @@ var Promise = require('es6-promise').Promise,
     }
   },
   showPinDialog = () => {
-    chrome.runtime.sendMessage({ type: 'showPinDialog', content: '' }, response => {
+    browser.runtime.sendMessage({ type: 'showPinDialog', content: '' }, response => {
       if (!!response) {
         if (response.type === 'pinVisible') {
           chromeManager.focusTab(response.tab.id);
@@ -204,7 +204,7 @@ var Promise = require('es6-promise').Promise,
     });
   },
   windowClose = () => {
-    chrome.windows.getAll(wins => {
+    browser.windows.getAll(wins => {
       if (wins.length === 0) {
         bgStore.disconnect();
         chromeManager.updateBadgeStatus('OFF');
@@ -281,14 +281,14 @@ var Promise = require('es6-promise').Promise,
         break;
 
       case 'saveContent':
-        chrome.runtime.sendMessage({ type: 'fileSaving' });
+        browser.runtime.sendMessage({ type: 'fileSaving' });
         trezorManager.encrypt(request.content, bgStore.encryptionKey).then(res => {
           saveContent(res);
         });
         break;
 
       case 'encryptFullEntry':
-        chrome.runtime.sendMessage({ type: 'fileSaving', key_value: request.content.key_value || true });
+        browser.runtime.sendMessage({ type: 'fileSaving', key_value: request.content.key_value || true });
         trezorManager.encryptFullEntry(request.content, sendResponse);
         break;
 
@@ -301,7 +301,7 @@ var Promise = require('es6-promise').Promise,
         break;
 
       case 'importCancel':
-        chrome.runtime.sendMessage({ type: 'fileSaved' });
+        browser.runtime.sendMessage({ type: 'fileSaved' });
         break;
 
       case 'decryptFullEntry':
@@ -335,12 +335,12 @@ var Promise = require('es6-promise').Promise,
     return true;
   };
 
-chrome.runtime.onMessage.addListener(chromeMessaging);
+browser.runtime.onMessage.addListener(chromeMessaging);
 
 //handling when all windows are closed to clear context etc ...
-chrome.windows.onRemoved.addListener(() => windowClose());
+browser.windows.onRemoved.addListener(() => windowClose());
 
-// check if app shouldnt reopen after software restart
+// check if app shouldn't reopen after software restart
 if (localStorage.getItem('tpmRestart') === 'reopen') {
   setTimeout(() => {
     init();

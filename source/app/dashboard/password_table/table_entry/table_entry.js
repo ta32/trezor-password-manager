@@ -203,11 +203,11 @@ var React = require('react'),
         safe_note: this.state.safe_note,
         nonce: this.state.nonce
       };
-      chrome.runtime.sendMessage(
+      browser.runtime.sendMessage(
         { type: 'decryptPassword', content: data, clipboardClear: false },
         response => {
           if (response.content.success) {
-            chrome.runtime.sendMessage({ type: 'openTabAndLogin', content: response.content });
+            browser.runtime.sendMessage({ type: 'openTabAndLogin', content: response.content });
           }
           this.setTrezorWaitingBackface(false);
         }
@@ -235,7 +235,7 @@ var React = require('react'),
         safe_note: this.state.safe_note,
         nonce: this.state.nonce
       };
-      chrome.runtime.sendMessage(
+      browser.runtime.sendMessage(
         { type: 'decryptPassword', content: data, clipboardClear: true },
         response => {
           if (response.content.success) {
@@ -269,7 +269,7 @@ var React = require('react'),
           safe_note: this.state.safe_note,
           nonce: this.state.nonce
         };
-        chrome.runtime.sendMessage({ type: 'decryptFullEntry', content: data }, response => {
+        browser.runtime.sendMessage({ type: 'decryptFullEntry', content: data }, response => {
           if (this.responseTarget(response)) {
             if (response.content.success && typeof window.myStore !== 'undefined') {
               this.setState({
@@ -329,7 +329,7 @@ var React = require('react'),
             key_value: this.state.key_value
           };
 
-          chrome.runtime.sendMessage({ type: 'encryptFullEntry', content: data }, response => {
+          browser.runtime.sendMessage({ type: 'encryptFullEntry', content: data }, response => {
             data.password = response.content.password;
             data.safe_note = response.content.safe_note;
             data.nonce = response.content.nonce;

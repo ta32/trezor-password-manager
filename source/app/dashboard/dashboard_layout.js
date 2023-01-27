@@ -28,14 +28,14 @@ var React = require('react'),
     componentDidMount() {
       if (this.storeExists()) {
         this.setState({ ready: true });
-        chrome.runtime.onMessage.addListener(this.chromeDashboardMsgHandler);
+        browser.runtime.onMessage.addListener(this.chromeDashboardMsgHandler);
       } else {
         this.transitionTo('home');
       }
     },
 
     componentWillUnmount() {
-      chrome.runtime.onMessage.removeListener(this.chromeDashboardMsgHandler);
+      browser.runtime.onMessage.removeListener(this.chromeDashboardMsgHandler);
     },
 
     chromeDashboardMsgHandler(request, sender, sendResponse) {

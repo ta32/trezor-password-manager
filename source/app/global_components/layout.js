@@ -14,11 +14,11 @@ var React = require('react'),
   { RouteHandler } = Router,
   Layout = React.createClass({
     componentDidMount() {
-      chrome.runtime.onMessage.addListener(this.chromeLayoutModalMsgHandler);
+      browser.runtime.onMessage.addListener(this.chromeLayoutModalMsgHandler);
     },
 
     componentWillUnmount() {
-      chrome.runtime.onMessage.removeListener(this.chromeLayoutModalMsgHandler);
+      browser.runtime.onMessage.removeListener(this.chromeLayoutModalMsgHandler);
     },
 
     chromeLayoutModalMsgHandler(request, sender, sendResponse) {
@@ -28,7 +28,7 @@ var React = require('react'),
           break;
 
         case 'isAppOpen':
-          chrome.tabs.getCurrent(tab => {
+          browser.tabs.getCurrent(tab => {
             sendResponse({ type: 'openApp', tab: tab });
           });
           break;

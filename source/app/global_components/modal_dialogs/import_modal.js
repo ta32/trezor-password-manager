@@ -127,7 +127,7 @@ var React = require('react'),
         firstRowHeader: false,
         encryptedEntries: []
       });
-      chrome.runtime.sendMessage({ type: 'importCancel' });
+      browser.runtime.sendMessage({ type: 'importCancel' });
     },
 
     importStorage(n) {
@@ -220,7 +220,7 @@ var React = require('react'),
           }
         }
 
-        chrome.runtime.sendMessage({ type: 'encryptFullEntry', content: data }, response => {
+        browser.runtime.sendMessage({ type: 'encryptFullEntry', content: data }, response => {
           var importStatus = this.state.importStatus
           if (importStatus.length === 0) return;
           data.password = response.content.password;

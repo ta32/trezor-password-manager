@@ -21,7 +21,7 @@ class Store extends EventEmitter {
         this.sendMsg('errorMsg', { code: 'T_CORRUPTED', cEntries: c.join(', ') });
       }
     });
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) =>
+    browser.runtime.onMessage.addListener((request, sender, sendResponse) =>
       this.chromeStoreMsgHandler(request, sender, sendResponse)
     );
     this.emit('update', this.data);
@@ -281,7 +281,7 @@ class Store extends EventEmitter {
   }
 
   sendMsg(type, content = null) {
-    chrome.runtime.sendMessage({ type: type, content: content });
+    browser.runtime.sendMessage({ type: type, content: content });
   }
 
   userSwitch() {

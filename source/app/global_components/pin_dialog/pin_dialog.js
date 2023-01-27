@@ -17,17 +17,17 @@ var React = require('react'),
     },
 
     componentDidMount() {
-      chrome.runtime.onMessage.addListener(this.chromePinDialogMsgHandler);
+      browser.runtime.onMessage.addListener(this.chromePinDialogMsgHandler);
       window.addEventListener('keydown', this.pinKeydownHandler);
     },
 
     componentWillUnmount() {
-      chrome.runtime.onMessage.removeListener(this.chromePinDialogMsgHandler);
+      browser.runtime.onMessage.removeListener(this.chromePinDialogMsgHandler);
       window.removeEventListener('keydown', this.pinKeydownHandler);
     },
 
     sendMessage(msgType, msgContent) {
-      chrome.runtime.sendMessage({ type: msgType, content: msgContent });
+      browser.runtime.sendMessage({ type: msgType, content: msgContent });
     },
 
     chromePinDialogMsgHandler(request, sender, sendResponse) {

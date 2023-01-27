@@ -9,15 +9,15 @@ var gulp = require('gulp'),
   buffer = require('vinyl-buffer'),
   browserify = require('browserify');
 
-gulp.task('sass', function() {
+gulp.task('sass', function(cb) {
   gulp
     .src('./source/app/*.scss')
-    .pipe(sass())
+    .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('./extension/dist/'))
-    .pipe(connect.reload());
+  cb();
 });
 
-gulp.task('production-sass', function() {
+gulp.task('production-sass', () => {
   gulp
     .src('./source/app/*.scss')
     .pipe(sass())

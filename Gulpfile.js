@@ -1,5 +1,5 @@
 var gulp = require('gulp'),
-  sass = require('gulp-sass'),
+  sass = require('gulp-sass')(require('sass')),
   connect = require('gulp-connect'),
   uglify = require('gulp-uglifyes'),
   cleanCSS = require('gulp-clean-css'),
@@ -111,6 +111,6 @@ gulp.task('watch', () => {
   gulp.watch('./source/app/**/*.js', ['dev-app']);
 });
 
-gulp.task('default', ['production-app', 'production-bg', 'sass']);
-gulp.task('serve', ['dev-bg', 'dev-app', 'sass', 'connect', 'watch']);
-gulp.task('production', ['production-app', 'production-bg', 'production-sass']);
+gulp.task('default', gulp.series('production-app', 'production-bg', 'sass'));
+gulp.task('serve', gulp.series('dev-bg', 'dev-app', 'sass', 'connect', 'watch'));
+gulp.task('production', gulp.series('production-app', 'production-bg', 'production-sass'));

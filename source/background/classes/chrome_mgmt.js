@@ -53,7 +53,7 @@ class ChromeMgmt {
     return new Promise((resolve, reject) => {
       browser.runtime.sendMessage({ type: 'isAppOpen', content: '' }, response => {
         if (browser.runtime.lastError || !response) {
-          browser.tabs.create({ url: appUrl, selected: true }, tab => {
+          browser.tabs.create({ url: appUrl, active: true }, tab => {
             this.focusTab(tab.id).then(() => {
               resolve(tab.id);
             });

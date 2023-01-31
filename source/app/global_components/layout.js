@@ -22,6 +22,7 @@ var React = require('react'),
     },
 
     chromeLayoutModalMsgHandler(request, sender, sendResponse) {
+      console.log('chromeLayoutModalMsgHandler', request, sender, sendResponse);
       switch (request.type) {
         case 'focus':
           window.focus();

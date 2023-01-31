@@ -70,6 +70,7 @@ var React = require('react'),
     },
 
     chromeMsgHandler(request, sender, sendResponse) {
+      console.log('chromeMsgHandler', request, sender, sendResponse);
       switch (request.type) {
         // STORAGE PHASE
 

@@ -25,7 +25,7 @@ class BgDataStore extends EventEmitter {
     this.fileName = false;
     this.fileId = false;
     this.tpmFolderId = false;
-    this.appUrl = browser.extension.getURL('index.html');
+    this.appUrl = browser.runtime.getURL('index.html');
   }
 
   isUrl(str) {

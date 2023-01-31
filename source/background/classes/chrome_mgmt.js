@@ -52,13 +52,16 @@ class ChromeMgmt {
   openAppTab(appUrl) {
     return new Promise((resolve, reject) => {
       browser.runtime.sendMessage({ type: 'isAppOpen', content: '' }, response => {
-        if (browser.runtime.lastError || !response) {
+        if (!response) {
+          console.log('App not open, opening new tab');
           browser.tabs.create({ url: appUrl, active: true }, tab => {
             this.focusTab(tab.id).then(() => {
+              console.log('App tab focused (id: ' + tab.id + ')');
               resolve(tab.id);
             });
           });
         } else {
+          console.log('App already open, focusing tab');
           this.focusTab(response.tab.id).then(() => {
             resolve(response.tab.id);
           });
@@ -66,6 +69,7 @@ class ChromeMgmt {
       });
     });
   }
+
 
   focusTab(tabId) {
     return new Promise((resolve, reject) => {
@@ -270,6 +274,8 @@ class ChromeMgmt {
   }
 
   sendTabMessage(tabId, type, data) {
+    console.log('sendTabMessage', tabId, type, data);
+    sleep(5000);
     browser.tabs.sendMessage(tabId, { type: type, content: data });
   }
 

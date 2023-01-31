@@ -15,11 +15,11 @@ window.AppRootFolder = 'Apps';
 window.AppFolder = 'TREZOR Password Manager';
 
 // Useful for sendMessage debugging (browser.runtime.lastError)
-const sm = browser.runtime.sendMessage;
-browser.runtime.sendMessage = (a, b) => {
-  console.log("runtime.sendMessage:", a, b);
-  sm(a, b);
-}
+// const sm = browser.runtime.sendMessage;
+// browser.runtime.sendMessage = (a, b) => {
+//   console.log("runtime.sendMessage:", a, b);
+//   sm(a, b);
+// }
 
 // Storage will be used for background internal messaging (extends EventEmitter) ...
 var Promise = require('es6-promise').Promise,
@@ -221,6 +221,7 @@ var Promise = require('es6-promise').Promise,
     userLoggedOut();
   },
   chromeMessaging = (request, sender, sendResponse) => {
+    console.log('chromeMessaging', request, sender, sendResponse);
     switch (request.type) {
       case 'initPlease':
         init();

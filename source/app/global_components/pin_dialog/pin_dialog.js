@@ -31,6 +31,7 @@ var React = require('react'),
     },
 
     chromePinDialogMsgHandler(request, sender, sendResponse) {
+      console.log('chromePinDialogMsgHandler', request, sender, sendResponse);
       switch (request.type) {
         case 'wrongPin':
           this.setState({

@@ -54,7 +54,7 @@ class TrezorMgmt {
         appUrl: 'trezor-password-manager',
       },
       debug: true,
-      webusb: true,
+      webusb: false,
       popup: false,
       // connectSrc: URL_CONNECT
     });

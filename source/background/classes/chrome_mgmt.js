@@ -20,7 +20,7 @@ class ChromeMgmt {
     browser.tabs.onActivated.addListener(() => this._detectActiveUrl());
     browser.tabs.onUpdated.addListener(() => this._detectActiveUrl());
     browser.commands.onCommand.addListener(c => this._chromeCommands(c));
-    browser.browserAction.onClicked.addListener(() => this.openAppTab(this.bgStore.appUrl));
+    browser.browserAction.onClicked.addListener(() => this.openAppTabOnce(this.bgStore.appUrl).then(() => console.log(' OnClick App tab opened')));
   }
 
   exists() {
@@ -70,12 +70,49 @@ class ChromeMgmt {
     });
   }
 
+  openAppTabOnce(appUrl) {
+    return this.getAppTabId().then(response => {
+      if(response.open) {
+        console.log('App already open, focusing tab');
+        this.focusTab(response.id).then(() => {
+          return response.id;
+        });
+      } else {
+        console.log('App not open, opening new tab');
+        return this.openAppTab(appUrl);
+      }
+    });
+  }
+
+  getAppTabId() {
+    console.log('getAppTabId if open');
+    return browser.runtime.sendMessage({ type: 'isAppOpen', content: '' }).then(response => {
+      console.log('isAppOpen response', response);
+      if(!response) {
+        console.log('App not open');
+        return {open: false, id: 0}
+      }
+      return {open: true, id: response.tab.id};
+    }, error => {
+      console.log('isAppOpen request error', error);
+      return {open: false, id: 0}
+    })
+  }
+
+  openAppTab(appUrl) {
+    return browser.tabs.create({ url: appUrl, active: true }).then(tab => {
+      console.log('App tab created (id: ' + tab.id + ')');
+      return tab.id;
+    })
+  }
+
 
   focusTab(tabId) {
     return new Promise((resolve, reject) => {
       browser.tabs.update(tabId, { highlighted: true }, tab => {
-        resolve(tab);
+        console.log('about to send message to tab', tabId);
         this.sendTabMessage(tabId, 'focus');
+        resolve(tab);
       });
     });
   }
@@ -153,6 +190,7 @@ class ChromeMgmt {
   }
 
   _saveEntry() {
+    console.log('Saving entry');
     var domain = this.activeUrl;
     this.openAppTab().then(tabId => {
       setTimeout(() => {
@@ -275,7 +313,6 @@ class ChromeMgmt {
 
   sendTabMessage(tabId, type, data) {
     console.log('sendTabMessage', tabId, type, data);
-    sleep(5000);
     browser.tabs.sendMessage(tabId, { type: type, content: data });
   }
 

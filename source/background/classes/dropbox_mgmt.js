@@ -8,7 +8,8 @@
 'use strict';
 var crypto = require('crypto'),
     state = crypto.randomBytes(40).toString('hex');
-const fullReceiverPath = 'moz-extension://' + browser.runtime.id + '/html/chrome_oauth_receiver.html',
+    const extensionUrl = browser.runtime.getURL('./');
+const fullReceiverPath = extensionUrl + 'html/chrome_oauth_receiver.html',
     APIKEY = 's340kh3l0vla1nv',
     STORAGE = 'tpmDropboxToken',
     logoutUrl = 'https://www.dropbox.com/logout',
@@ -26,6 +27,7 @@ class DropboxMgmt {
   }
 
   isAuth() {
+    console.log('isAuth', this.authToken);
     return this.authToken !== '';
   }
 
@@ -40,10 +42,18 @@ class DropboxMgmt {
 
     connect() {
         if (!this.isAuth()) {
+            console.log('no auth');
             state = crypto.randomBytes(40).toString('hex');
+            console.log('fullReceiverPath', fullReceiverPath);
             this.authUrl = this.dbc.getAuthenticationUrl(fullReceiverPath, state);
-            window.open(this.authUrl);
+            console.log('open', this.authUrl);
+            // window.open(this.authUrl);
+            // window.open(this.authUrl, '_blank');
+            browser.tabs.create({
+              url: this.authUrl
+            });
         } else {
+            console.log('authenticated');
             this.dbc.setAccessToken(this.authToken);
             this.getDropboxUsername();
         }

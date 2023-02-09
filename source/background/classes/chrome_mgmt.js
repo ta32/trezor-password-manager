@@ -308,7 +308,11 @@ class ChromeMgmt {
   }
 
   sendMessage(msgType, msgContent) {
-    browser.runtime.sendMessage({ type: msgType, content: msgContent });
+    browser.runtime.sendMessage({ type: msgType, content: msgContent }).then( response => {
+      console.log('sendMessage response', response);
+    }, error => {
+      console.log('sendMessage error', error);
+    });
   }
 
   sendTabMessage(tabId, type, data) {

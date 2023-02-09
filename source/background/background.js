@@ -221,7 +221,7 @@ var Promise = require('es6-promise').Promise,
     userLoggedOut();
   },
   chromeMessaging = (request, sender, sendResponse) => {
-    console.log('chromeMessaging', request, sender, sendResponse);
+    console.log('chromeMessaging handler', request, sender, sendResponse);
     switch (request.type) {
       case 'initPlease':
         init();
@@ -235,9 +235,12 @@ var Promise = require('es6-promise').Promise,
         break;
 
       case 'connectDropbox':
+        console.log('process msg for connectDropbox');
         if (isOnline()) {
+          console.log('isOnline')
           dropboxManager.connect();
         } else {
+          console.log('is not online')
           chromeManager.sendMessage('errorMsg', { code: 'T_NO_TRANSPORT' });
         }
         break;

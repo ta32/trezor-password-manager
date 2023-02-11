@@ -27,7 +27,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "TPM-Dev@example.com",
+      "id": "tpm-dev@example.com",
       "strict_min_version": "42.0"
     }
   },
@@ -42,7 +42,7 @@
     "persistent": true,
     "scripts": ["js/upload.js", "js/background.js"]
   },
-  "content_security_policy": "script-src 'self' https://apis.google.com/ https://connect.trezor.io/5/; object-src 'self'",
+  "content_security_policy": "script-src 'self' https://apis.google.com/ https://connect.trezor.io/8/; object-src 'self'",
   "web_accessible_resources": [
     "html/chrome_oauth_receiver.html",
     "images/trezor.svg",
@@ -56,9 +56,11 @@
     "contextMenus",
     "clipboardRead",
     "clipboardWrite",
+    "webRequest",
     "activeTab",
     "http://*/",
     "https://*/",
+    "*://connect.trezor.io/8/*",
     "https://*.trezor.io/*",
     "https://*.dropbox.com/*",
     "https://www.google.com/accounts/OAuthGetRequestToken",

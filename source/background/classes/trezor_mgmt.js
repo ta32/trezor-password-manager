@@ -48,13 +48,14 @@ class TrezorMgmt {
     this.trezorConnect.on(TC_TRANSPORT_EVENT, msg => this._transportEvent(msg));
     this.trezorConnect.on(TC_DEVICE_EVENT, msg => this._deviceEvent(msg));
     this.trezorConnect.on(TC_UI_EVENT, msg => this._uiEvent(msg));
+    console.log("loading trezor-connect iframe after this call");
     this.trezorConnect.init({
       manifest: {
         email: 'info@trezor.io',
         appUrl: 'trezor-password-manager',
       },
       debug: true,
-      webusb: true,
+      webusb: false,
       popup: false,
       // connectSrc: URL_CONNECT
     });
@@ -88,6 +89,8 @@ class TrezorMgmt {
   }
 
   init() {
+    console.log('trezor_mgmt init');
+    console.log('trezor_mgmt deviceList', this._deviceList);
     this.bgStore.emit('sendMessage', 'trezorConnected');
     this.bgStore.emit('sendMessage', 'trezorTransport', { transport: transportType });
     this.bgStore.emit('sendMessage', 'updateDevices', { devices: this._deviceList });
@@ -126,6 +129,7 @@ class TrezorMgmt {
   }
 
   checkReconnect() {
+    console.log('trezor check reconnect');
     if (tcMissing) {
       this.bgStore.emit('sendMessage', 'errorMsg', { code: 'T_NO_TRANSPORT' });
     }
@@ -153,6 +157,7 @@ class TrezorMgmt {
   }
 
   _deviceEvent(msg) {
+    console.log('trezor_mgmt got device event', msg)
     let device = this._getCleanDevice(msg.payload);
     switch (msg.type) {
       case TC_DEVICE.CONNECT:

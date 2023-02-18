@@ -40,8 +40,10 @@ class DropboxMgmt {
 
     connect() {
         if (!this.isAuth()) {
+            console.log('no auth');
             state = crypto.randomBytes(40).toString('hex');
             this.authUrl = this.dbc.getAuthenticationUrl(fullReceiverPath, state);
+            console.log('open', this.authUrl);
             window.open(this.authUrl);
         } else {
             this.dbc.setAccessToken(this.authToken);

@@ -221,6 +221,7 @@ var Promise = require('es6-promise').Promise,
     userLoggedOut();
   },
   chromeMessaging = (request, sender, sendResponse) => {
+    console.log('chromeMessaging handler', request, sender, sendResponse);
     switch (request.type) {
       case 'initPlease':
         init();
@@ -247,8 +248,10 @@ var Promise = require('es6-promise').Promise,
 
       case 'connectDrive':
         if (isOnline()) {
+          console.log('isOnline')
           driveManager.connect();
         } else {
+          console.log('is not online')
           chromeManager.sendMessage('errorMsg', { code: 'T_NO_TRANSPORT' });
         }
         break;

@@ -55,10 +55,14 @@ class TrezorMgmt {
         appUrl: 'trezor-password-manager',
       },
       debug: true,
-      webusb: false,
+      webusb: true,
       popup: false,
       // connectSrc: URL_CONNECT
     });
+    // window.parent.postMessage({
+    //   event: 'UI_EVENT',
+    //   type: 'iframe-bootstrap',
+    // }, '*');
     this.bgStore.emit('checkReopen');
   }
 

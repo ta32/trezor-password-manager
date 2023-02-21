@@ -1,3 +1,6 @@
+// Changes
+//                             // replace relativel url ./ with https://connect.trezor.io/8/
+//                             e = e.replace("./","https://connect.trezor.io/8/")
 !function(e, t) {
     "object" == typeof exports && "object" == typeof module ? module.exports = t() : "function" == typeof define && define.amd ? define([], t) : "object" == typeof exports ? exports.TrezorConnect = t() : e.TrezorConnect = t()
 }(self, (function() {
@@ -29750,6 +29753,7 @@
                             // replace relativel url ./ with https://connect.trezor.io/8/
                             e = e.replace("./","https://connect.trezor.io/8/")
                             return new n((function(n, i) {
+                                console.log("headers: " + e.headers)
                                 var o = new _(e,r);
                                 console.log("url: " + o.url);
 

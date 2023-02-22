@@ -54,6 +54,8 @@ class TrezorMgmt {
         email: 'info@trezor.io',
         appUrl: 'trezor-password-manager',
       },
+      connectSrc: "./",
+      iframeSrc: "./iframe.html",
       debug: true,
       webusb: true,
       popup: false,

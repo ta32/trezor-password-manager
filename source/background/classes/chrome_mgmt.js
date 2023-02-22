@@ -308,6 +308,7 @@ class ChromeMgmt {
   }
 
   sendMessage(msgType, msgContent) {
+    console.log('sending msg chrome_mgmt', msgType, msgContent);
     browser.runtime.sendMessage({ type: msgType, content: msgContent }).then( response => {
       console.log('sendMessage response', response);
     }, error => {

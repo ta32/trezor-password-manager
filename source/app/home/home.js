@@ -91,6 +91,7 @@ var React = require('react'),
           break;
 
         case 'updateDevices':
+          console.log('home.js updateDevices', request.content.devices);
           this.setState({
             devices: request.content.devices
           });
@@ -258,8 +259,10 @@ var React = require('react'),
     },
 
     render() {
+      console.log('render home');
       var showInstallBridge = false;
       var showUnacquired = false;
+      console.log(this.state.devices);
       var device_list = Object.keys(this.state.devices).map((key, i = 0) => {
         if (this.state.devices[key].path === "unreadable-device") {
           showInstallBridge = true;
@@ -267,6 +270,7 @@ var React = require('react'),
         if (!this.state.devices[key].accquired) {
           showUnacquired = true;
         }
+        console.log(device_list);
         return (
           <li key={i++}>
             <a

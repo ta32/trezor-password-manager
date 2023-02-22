@@ -32,6 +32,7 @@ var crypto = require('crypto'),
 
 class TrezorMgmt {
   constructor(bgStore, tc) {
+    console.log('TrezorMgmt constructor');
     this.bgStore = bgStore;
     this._activeDevice = null;
     this._deviceList = [];
@@ -88,6 +89,8 @@ class TrezorMgmt {
   }
 
   init() {
+    console.log('trezor_mgmt init');
+    console.log('trezor_mgmt deviceList', this._deviceList);
     this.bgStore.emit('sendMessage', 'trezorConnected');
     this.bgStore.emit('sendMessage', 'trezorTransport', { transport: transportType });
     this.bgStore.emit('sendMessage', 'updateDevices', { devices: this._deviceList });
@@ -153,9 +156,11 @@ class TrezorMgmt {
   }
 
   _deviceEvent(msg) {
+    console.log('trezor_mgmt got device event', msg)
     let device = this._getCleanDevice(msg.payload);
     switch (msg.type) {
       case TC_DEVICE.CONNECT:
+        console.log('device connected', device);
         this._addDevice(device);
         break;
 
@@ -168,6 +173,7 @@ class TrezorMgmt {
         break;
 
       case TC_DEVICE.DISCONNECT:
+        console.log('device disconnected', device);
         this._removeDevice(device);
         break;
     }
@@ -207,6 +213,8 @@ class TrezorMgmt {
   }
 
   _addDevice(d) {
+    console.log('add device', d);
+    console.log('current device', this._activeDevice);
     let device = d;
     if (device.accquired) {
       if (!this._hasDevice(device)) {
@@ -246,6 +254,7 @@ class TrezorMgmt {
   _updateDevice(d) {
     let device = d;
     // TBD
+    console.log('update device', device);
     if (this._hasDevice(device)) {
       this._deviceList[this._getIndexDevice(device)] = device;
       this.bgStore.emit('sendMessage', 'updateDevices', { devices: this._deviceList });

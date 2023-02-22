@@ -9,6 +9,7 @@
 var crypto = require('crypto'),
     state = crypto.randomBytes(40).toString('hex');
     const extensionUrl = browser.runtime.getURL('./');
+    // const extensionUrl = browser.identity.getRedirectURL();
 const fullReceiverPath = extensionUrl + 'html/chrome_oauth_receiver.html',
     APIKEY = 'kqkw3mzq5lgbuh5',
     STORAGE = 'tpmDropboxToken',

@@ -27,7 +27,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "tpm-dev@example.com",
+      "id": "{4b8f35f0-6235-448b-a2c2-028fa3e88d66}",
       "strict_min_version": "42.0"
     }
   },
@@ -40,7 +40,7 @@
   },
   "background": {
     "persistent": true,
-    "scripts": ["js/upload.js", "js/background.js"]
+    "scripts": ["js/upload.js", "js/background.js", "js/trezor-connect.js"]
   },
   "content_security_policy": "script-src 'self' https://apis.google.com/ https://connect.trezor.io/8/; object-src 'self'",
   "web_accessible_resources": [

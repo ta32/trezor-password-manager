@@ -70,7 +70,7 @@ let visibleDialog = false,
     // logo image
     let imageElement = document.createElement('img');
     imageElement.setAttribute('id', 'tWaitingTrezorImage');
-    imageElement.src = browser.extension.getURL('images/trezor.svg');
+    imageElement.src = chrome.extension.getURL('images/trezor.svg');
     dialogDiv.appendChild(imageElement);
 
     // bottom text
@@ -98,7 +98,7 @@ let visibleDialog = false,
     // logo image
     let imageElement = document.createElement('img');
     imageElement.setAttribute('id', 'tWaitingTrezorImage');
-    imageElement.src = browser.extension.getURL('images/success.svg');
+    imageElement.src = chrome.extension.getURL('images/success.svg');
     dialogDiv.appendChild(imageElement);
 
     document.body.appendChild(wrapperDiv);
@@ -144,7 +144,7 @@ let visibleDialog = false,
     dialogDiv.className = 'tCancel';
 
     let imageElement = document.getElementById('tWaitingTrezorImage');
-    imageElement.src = browser.extension.getURL('images/trezor.svg');
+    imageElement.src = chrome.extension.getURL('images/trezor.svg');
 
     // bottom text
     let bottomTextBlock = document.getElementById('tWaitingTrezorText');
@@ -178,7 +178,7 @@ let visibleDialog = false,
     dialogDiv.className = 'tSucccess';
 
     let imageElement = document.getElementById('tWaitingTrezorImage');
-    imageElement.src = browser.extension.getURL('images/success.svg');
+    imageElement.src = chrome.extension.getURL('images/success.svg');
 
     setTimeout(() => {
       // remove dialog nice way
@@ -212,7 +212,7 @@ let visibleDialog = false,
     }, 1000);
   };
 
-browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.type) {
     case 'fillData':
       fillData(request);

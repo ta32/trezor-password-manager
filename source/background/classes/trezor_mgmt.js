@@ -49,11 +49,14 @@ class TrezorMgmt {
     this.trezorConnect.on(TC_TRANSPORT_EVENT, msg => this._transportEvent(msg));
     this.trezorConnect.on(TC_DEVICE_EVENT, msg => this._deviceEvent(msg));
     this.trezorConnect.on(TC_UI_EVENT, msg => this._uiEvent(msg));
+    // for remote iframe: https://connect.trezor.io/8/
     this.trezorConnect.init({
       manifest: {
         email: 'info@trezor.io',
         appUrl: 'trezor-password-manager',
       },
+      connectSrc: "./",
+      iframeSrc: "https://connect.trezor.io/8/iframe.html",
       debug: true,
       webusb: false,
       popup: false,

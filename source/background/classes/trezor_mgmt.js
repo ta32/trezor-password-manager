@@ -54,7 +54,7 @@ class TrezorMgmt {
         email: 'info@trezor.io',
         appUrl: 'trezor-password-manager',
       },
-      connectSrc: "./",
+      connectSrc: "./", // will set the origin to the trezor demon Origin: chrome-extension://imloifkgjagghnncjkhggdhalmcnfklk otherwise there will be CORS error
       iframeSrc: "./iframe.html",
       debug: true,
       webusb: true,

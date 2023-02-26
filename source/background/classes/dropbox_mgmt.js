@@ -32,7 +32,7 @@ class DropboxMgmt {
   disconnect() {
     if (this.isAuth()) {
       this.authToken = '';
-      window.open(logoutUrl, '_blank');
+      // window.open(logoutUrl, '_blank');
     } else {
       this.bgStore.emit('sendMessage', 'disconnected');
     }
@@ -44,7 +44,7 @@ class DropboxMgmt {
             state = crypto.randomBytes(40).toString('hex');
             this.authUrl = this.dbc.getAuthenticationUrl(fullReceiverPath, state);
             console.log('open', this.authUrl);
-            window.open(this.authUrl);
+            // window.open(this.authUrl);
         } else {
             this.dbc.setAccessToken(this.authToken);
             this.getDropboxUsername();
@@ -52,14 +52,14 @@ class DropboxMgmt {
     }
 
     loadMetadataToken() {
-        return window.localStorage[STORAGE] ? window.localStorage[STORAGE] : '';
+        return ''; //window.localStorage[STORAGE] ? window.localStorage[STORAGE] : '';
     }
 
     saveToken(val) {
         let retState = this.parseQuery(val).state;
         if (retState === state) {
             this.authToken = this.parseQuery(val).access_token;
-            window.localStorage[STORAGE] = this.authToken;
+            // window.localStorage[STORAGE] = this.authToken;
             this.connect();
         }
     }
@@ -170,7 +170,7 @@ class DropboxMgmt {
   }
 
   handleUnauthorized() {
-    delete window.localStorage[STORAGE];
+    // delete window.localStorage[STORAGE];
     this.authToken = '';
     this.bgStore.disconnect();
     this.bgStore.emit('sendMessage', 'disconnected');

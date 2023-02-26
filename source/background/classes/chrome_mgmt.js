@@ -20,7 +20,7 @@ class ChromeMgmt {
     chrome.tabs.onActivated.addListener(() => this._detectActiveUrl());
     chrome.tabs.onUpdated.addListener(() => this._detectActiveUrl());
     chrome.commands.onCommand.addListener(c => this._chromeCommands(c));
-    chrome.browserAction.onClicked.addListener(() => this.openAppTab());
+    chrome.action.onClicked.addListener(() => this.openAppTab());
   }
 
   exists() {
@@ -43,10 +43,10 @@ class ChromeMgmt {
   }
 
   _checkReopen() {
-    if (localStorage.getItem('tpmRestart') === 'reopen') {
-      localStorage.setItem('tpmRestart', 'nope');
-      this.openAppTab();
-    }
+    // if (localStorage.getItem('tpmRestart') === 'reopen') {
+    //   localStorage.setItem('tpmRestart', 'nope');
+    //   this.openAppTab();
+    // }
   }
 
   openAppTab() {
@@ -171,8 +171,8 @@ class ChromeMgmt {
       ERROR: { color: [255, 173, 51, 255], defaultText: '\u0020' },
       OFF: { color: [255, 255, 0, 100], defaultText: '' }
     };
-    chrome.browserAction.setBadgeText({ text: badgeState[status].defaultText });
-    chrome.browserAction.setBadgeBackgroundColor({ color: badgeState[status].color });
+    chrome.action.setBadgeText({ text: badgeState[status].defaultText });
+    chrome.action.setBadgeBackgroundColor({ color: badgeState[status].color });
   }
 
   _matchingContent(host) {

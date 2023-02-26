@@ -10,9 +10,9 @@
 require('babel-polyfill');
 require('trezor-connect');
 
-window.tpmErroLog = [];
-window.AppRootFolder = 'Apps';
-window.AppFolder = 'TREZOR Password Manager';
+// window.tpmErroLog = [];
+// window.AppRootFolder = 'Apps';
+// window.AppFolder = 'TREZOR Password Manager';
 
 // Useful for sendMessage debugging (chrome.runtime.lastError)
 const sm = chrome.runtime.sendMessage;
@@ -33,7 +33,7 @@ var Promise = require('es6-promise').Promise,
   TrezorMgmt = require('./classes/trezor_mgmt'),
   trezorManager = {},
   DropboxMgmt = require('./classes/dropbox_mgmt'),
-  TrezorConnect = require('trezor-connect').default,
+  // TrezorConnect = require('trezor-connect').default, - has code that doesn't run in MV3
   dropboxManager = {},
   DriveMgmt = require('./classes/drive_mgmt'),
   driveManager = {},
@@ -48,7 +48,7 @@ var Promise = require('es6-promise').Promise,
         bgStore.on('retrySetup', setupRetry);
         bgStore.on('loadFile', loadFile);
         bgStore.on('disconnectedTrezor', userSwitch);
-        trezorManager = new TrezorMgmt(bgStore, TrezorConnect);
+        trezorManager = new TrezorMgmt(bgStore, null);
         dropboxManager = new DropboxMgmt(bgStore);
         driveManager = new DriveMgmt(bgStore);
         bgStore.on('clearSession', () => trezorManager.clearSession());
@@ -344,8 +344,8 @@ chrome.runtime.onMessage.addListener(chromeMessaging);
 chrome.windows.onRemoved.addListener(() => windowClose());
 
 // check if app shouldnt reopen after software restart
-if (localStorage.getItem('tpmRestart') === 'reopen') {
-  setTimeout(() => {
-    init();
-  }, 1500);
-}
+// if (localStorage.getItem('tpmRestart') === 'reopen') {
+//   setTimeout(() => {
+//     init();
+//   }, 1500);
+// }

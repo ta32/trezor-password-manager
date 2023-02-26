@@ -27,8 +27,8 @@ var crypto = require('crypto'),
   TC_UI = require('trezor-connect').UI,
   TC_TRANSPORT = require('trezor-connect').TRANSPORT,
   tcMissing = false,
-  transportType = false,
-  Clipboard = require('clipboard-js');
+  transportType = false
+  // Clipboard = require('clipboard-js');
 
 class TrezorMgmt {
   constructor(bgStore, tc) {
@@ -118,11 +118,11 @@ class TrezorMgmt {
   }
 
   renderWebUSBButton(callback) {
-    var button = document.createElement('button');
-        button.setAttribute('class', 'trezor-webusb-button');
-        button.append('Check for devices');
+    // var button = document.createElement('button');
+    //     button.setAttribute('class', 'trezor-webusb-button');
+    //     button.append('Check for devices');
 
-    document.body.append(button);
+    // document.body.append(button);
     this.trezorConnect.renderWebUSBButton();
     callback(button.innerHTML);
     button.remove();
@@ -554,19 +554,19 @@ class TrezorMgmt {
   }
 
   _removedPwdClipboard(pwd) {
-    try {
-      let el = document.createElement('textarea');
-      document.body.appendChild(el);
-      el.focus();
-      document.execCommand('paste');
-      let value = el.value;
-      document.body.removeChild(el);
-      if (pwd === value) {
-        Clipboard.copy('');
-      }
-    } catch (err) {
-      throw err;
-    }
+    // try {
+    //   let el = document.createElement('textarea');
+    //   document.body.appendChild(el);
+    //   el.focus();
+    //   document.execCommand('paste');
+    //   let value = el.value;
+    //   document.body.removeChild(el);
+    //   if (pwd === value) {
+    //     Clipboard.copy('');
+    //   }
+    // } catch (err) {
+    //   throw err;
+    // }
   }
 
   _sendDecryptCallback(responseCallback) {

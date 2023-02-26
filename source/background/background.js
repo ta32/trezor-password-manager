@@ -41,6 +41,7 @@ var Promise = require('es6-promise').Promise,
   preSetup = () => {
     chromeManager.exists().then(() => {
       try {
+        console.log('main.js: preSetup');
         bgStore.on('decryptContent', contentDecrypted);
         bgStore.on('initStorageFile', askToInitStorage);
         bgStore.on('disconnect', init);

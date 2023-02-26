@@ -90,6 +90,7 @@ var React = require('react'),
           break;
 
         case 'updateDevices':
+          console.log('updateDevices', request.content.devices);
           this.setState({
             devices: request.content.devices
           });
@@ -200,6 +201,7 @@ var React = require('react'),
     },
 
     activateDevice(d) {
+      console.log('activate device', d);
       if (this.state.devices[d].path === "unreadable-device") {
         // install bridge
         this.sendMessage('errorMsg', { code: 'T_NO_TRANSPORT' });
@@ -257,6 +259,7 @@ var React = require('react'),
     },
 
     render() {
+      console.log('render home');
       var showInstallBridge = false;
       var showUnacquired = false;
       var device_list = Object.keys(this.state.devices).map((key, i = 0) => {

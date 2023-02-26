@@ -251,6 +251,7 @@ class TrezorMgmt {
   _updateDevice(d) {
     let device = d;
     // TBD
+    console.log('_updateDevice', device);
     if (this._hasDevice(device)) {
       this._deviceList[this._getIndexDevice(device)] = device;
       this.bgStore.emit('sendMessage', 'updateDevices', { devices: this._deviceList });

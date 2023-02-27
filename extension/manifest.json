@@ -42,12 +42,15 @@
     "persistent": true,
     "scripts": ["js/upload.js", "js/background.js"]
   },
-  "content_security_policy": "script-src 'self' 'unsafe-eval' https://apis.google.com/ https://connect.trezor.io/8/; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://apis.google.com/ moz-extension://0131fc0f-55c6-43d2-85e2-4a40ec02fb7c/; object-src 'self'",
   "web_accessible_resources": [
     "html/chrome_oauth_receiver.html",
     "images/trezor.svg",
     "images/success.svg",
-    "css/content_style.css"
+    "css/content_style.css",
+    "js/upload.js",
+    "js/iframe.85d79dd9b56856b62ca6.js",
+    "iframe.html"
   ],
   "manifest_version": 2,
   "permissions": [

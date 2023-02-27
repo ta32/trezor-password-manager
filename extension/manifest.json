@@ -50,11 +50,15 @@
     "css/content_style.css",
     "js/upload.js",
     "js/iframe.85d79dd9b56856b62ca6.js",
-    "iframe.html"
+    "html/iframe.html"
   ],
   "manifest_version": 2,
   "permissions": [
     "<all_urls>",
+    "contextMenus",
+    "idle",
+    "storage",
+    "webNavigation",
     "identity",
     "contextMenus",
     "clipboardRead",

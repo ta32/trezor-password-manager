@@ -50,13 +50,15 @@ class TrezorMgmt {
     this.trezorConnect.on(TC_DEVICE_EVENT, msg => this._deviceEvent(msg));
     this.trezorConnect.on(TC_UI_EVENT, msg => this._uiEvent(msg));
     // for remote iframe: https://connect.trezor.io/8/
+    const src = browser.extension.getURL('html/iframe.html')
+    const base_src = src.substring(0, src.length - 11)
     this.trezorConnect.init({
       manifest: {
         email: 'info@trezor.io',
         appUrl: 'trezor-password-manager',
       },
-      connectSrc: "moz-extension://0131fc0f-55c6-43d2-85e2-4a40ec02fb7c/html/",
-      iframeSrc: "moz-extension://0131fc0f-55c6-43d2-85e2-4a40ec02fb7c/html/iframe.html",
+      connectSrc: base_src,
+      iframeSrc: src,
       debug: true,
       webusb: false,
       popup: false,

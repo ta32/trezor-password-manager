@@ -8,7 +8,7 @@
 'use strict';
 
 require('babel-polyfill');
-require('trezor-connect');
+require('@trezor/connect-web');
 
 window.tpmErroLog = [];
 window.AppRootFolder = 'Apps';
@@ -33,7 +33,7 @@ var Promise = require('es6-promise').Promise,
   TrezorMgmt = require('./classes/trezor_mgmt'),
   trezorManager = {},
   DropboxMgmt = require('./classes/dropbox_mgmt'),
-  TrezorConnect = require('trezor-connect').default,
+  TrezorConnect = require('@trezor/connect-web').default,
   dropboxManager = {},
   DriveMgmt = require('./classes/drive_mgmt'),
   driveManager = {},

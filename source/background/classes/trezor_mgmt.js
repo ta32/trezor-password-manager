@@ -20,12 +20,12 @@ const HD_HARDENED = 0x80000000,
     '2d650551248d792eabf628f451200d7f51cb63e46aadcbb1038aacb05e8c8aee2d650551248d792eabf628f451200d7f51cb63e46aadcbb1038aacb05e8c8aee';
 
 var crypto = require('crypto'),
-  TC_UI_EVENT = require('trezor-connect').UI_EVENT,
-  TC_DEVICE_EVENT = require('trezor-connect').DEVICE_EVENT,
-  TC_TRANSPORT_EVENT = require('trezor-connect').TRANSPORT_EVENT,
-  TC_DEVICE = require('trezor-connect').DEVICE,
-  TC_UI = require('trezor-connect').UI,
-  TC_TRANSPORT = require('trezor-connect').TRANSPORT,
+  TC_UI_EVENT = require('@trezor/connect-web').UI_EVENT,
+  TC_DEVICE_EVENT = require('@trezor/connect-web').DEVICE_EVENT,
+  TC_TRANSPORT_EVENT = require('@trezor/connect-web').TRANSPORT_EVENT,
+  TC_DEVICE = require('@trezor/connect-web').DEVICE,
+  TC_UI = require('@trezor/connect-web').UI,
+  TC_TRANSPORT = require('@trezor/connect-web').TRANSPORT,
   tcMissing = false,
   transportType = false,
   Clipboard = require('clipboard-js');

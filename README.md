@@ -23,6 +23,11 @@
    cd password-manager
    npm install yarn -g
    yarn install
+   
+   hacked because yarn install changes deps and breaks the build
+   
+   npm install
+   npm run start
    ```
 
 2. Set Chrome/Chromium to [Developer Mode](https://developer.chrome.com/extensions/getstarted#unpacked)
